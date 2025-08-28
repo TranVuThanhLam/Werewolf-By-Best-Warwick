@@ -1,120 +1,92 @@
 <template>
-  <div class="screen">
-    <div class="card-container" @click="toggleFlip">
-      <div :class="['card', { 'is-flipped': isFlipped }]">
-        
-        <!-- Mặt sau -->
-        <div class="card-face card-back">
-          <span class="card-icon">🂠</span>
-        </div>
-        
-        <!-- Mặt trước -->
-        <div class="card-face card-front">
-          <span class="card-icon">{{ role.icon }}</span>
-          <span class="card-name">{{ role.name }}</span>
-        </div>
+  <div class="flip-card" @click="flipCard">
+    <div class="flip-card-inner" :class="{ flipped: isFlipped }">
+      <!-- Mặt úp -->
+      <div class="flip-card-front">
+        <span class="card-back">🎴</span>
+      </div>
+      <!-- Mặt ngửa -->
+      <div class="flip-card-back">
+        <span class="role-icon">{{ role.icon }}</span>
+        <p class="role-name">{{ role.name }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
+
+const props = defineProps({
+  role: Object
+});
+const emit = defineEmits(["flipped"]);
 
 const isFlipped = ref(false);
-const toggleFlip = () => {
-  isFlipped.value = !isFlipped.value;
-};
 
-const role = {
-  name: "Sói",
-  icon: "🐺"
-};
+function flipCard() {
+  if (!isFlipped.value) {
+    isFlipped.value = true;
+    emit("flipped");
+  } else {
+    // Cho phép lật lại úp nếu cần
+    isFlipped.value = false;
+  }
+}
 </script>
 
 <style scoped>
-/* Full màn hình, canh giữa tuyệt đối */
-.screen {
-  position: fixed;
-  inset: 0; /* top:0; right:0; bottom:0; left:0 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #0f172a; /* nền tối */
-  overflow: hidden;
+.flip-card {
+  width: 200px;
+  height: 300px;
+  perspective: 1000px;
+  margin: auto;
 }
 
-/* Container lá bài */
-.card-container {
-  perspective: 1200px;
-  width: 65vw;
-  max-width: 280px;
-  aspect-ratio: 2 / 3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Lá bài */
-.card {
+.flip-card-inner {
   width: 100%;
   height: 100%;
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.6s ease-in-out;
-  transform-origin: center center;
-  cursor: pointer;
+  transition: transform 0.6s;
 }
 
-.card.is-flipped {
+.flip-card-inner.flipped {
   transform: rotateY(180deg);
 }
 
-/* Mặt lá bài */
-.card-face {
+.flip-card-front,
+.flip-card-back {
   position: absolute;
-  top: 0; left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 16px;
   backface-visibility: hidden;
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-size: 2rem;
 }
 
-.card-icon {
-  font-size: clamp(4rem, 15vw, 7rem);
-}
-
-.card-name {
-  margin-top: 12px;
-  font-size: clamp(1.2rem, 4vw, 1.8rem);
-  font-weight: bold;
-  color: white;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-}
-
-.card-front {
-  background: linear-gradient(135deg, #1e293b, #334155);
+.flip-card-front {
+  background: linear-gradient(135deg, #222, #444);
   color: white;
 }
 
-.card-back {
-  background: linear-gradient(135deg, #475569, #64748b);
+.flip-card-back {
+  background: linear-gradient(135deg, #ff4b1f, #1f1c18);
+  color: white;
   transform: rotateY(180deg);
-  color: white;
+  flex-direction: column;
 }
-</style>
 
-<style>
-html, body, #app {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  overflow: hidden; /* chặn scroll */
+.role-icon {
+  font-size: 3rem;
+}
+
+.role-name {
+  margin-top: 10px;
+  font-size: 1.4rem;
+  font-weight: bold;
 }
 </style>

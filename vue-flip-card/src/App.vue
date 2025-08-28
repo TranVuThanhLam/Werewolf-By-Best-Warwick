@@ -1,6 +1,5 @@
 <template>
   <div class="app-container">
-    <!-- Nội dung trang -->
     <div class="page-container">
       <EntryPoint 
         v-if="step === 'entry'" 
@@ -11,16 +10,22 @@
         @back="handleBack"
         @next="handleRolesSelected"
       />
-    <NameInput 
-      v-if="step === 'names'"
-      :playerCount="selectedRoles.length"
-      @back="handleBackToRoles"
-      @done="handleDone"
-    />
+      <NameInput 
+        v-if="step === 'names'"
+        :playerCount="selectedRoles.length"
+        @back="handleBackToRoles"
+        @done="handleDone"
+      />
+
+      <!-- 👉 Thêm RevealRoles -->
+      <RevealRoles 
+        v-if="step === 'reveal'"
+        :players="players"
+        :roles="selectedRoles"
+        @finish="handleFinishReveal"
+      />
     </div>
 
-
-    <!-- Footer -->
     <footer class="footer">
       Thực hiện bởi <span class="author">Trần Vũ Thanh Lâm</span>
     </footer>
@@ -32,28 +37,34 @@ import { ref } from "vue";
 import EntryPoint from './components/EntryPoint.vue';
 import RoleSelector from './components/RoleSelector.vue';
 import NameInput from './components/NameInput.vue';
+import RevealRoles from './components/RevealRoles.vue';
 
 const step = ref("entry");
-const selectedRoles = ref([]); // danh sách role đã chọn
+const selectedRoles = ref([]); 
+const players = ref([]);      
 
 const handleSelectMode = (mode) => {
   if (mode === "single") step.value = "roles";
 };
 
 const handleBack = () => step.value = "entry";
-
 const handleRolesSelected = (roles) => {
   selectedRoles.value = roles;
   step.value = "names";
 };
-
 const handleBackToRoles = () => step.value = "roles";
 
 const handleDone = (playersWithNames) => {
-  console.log("Danh sách người chơi:", playersWithNames);
-  // 👉 ở đây bạn có thể chuyển sang màn khác (ví dụ chơi game)
+  players.value = playersWithNames;
+  step.value = "reveal";   // 👉 chuyển sang chia bài
+};
+
+const handleFinishReveal = () => {
+  alert("Tất cả đã xem xong!"); 
+  step.value = "entry"; // hoặc sang màn quản trò
 };
 </script>
+
 
 
 <style>
