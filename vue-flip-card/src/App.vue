@@ -65,15 +65,16 @@ const handleFinishReveal = () => {
 };
 </script>
 
-
-
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Charm:wght@400;700&display=swap');
+
 html, body, #app {
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
   overflow: hidden; /* 🚀 Khóa toàn bộ scroll */
+  font-family: "Charm", cursive; /* 🔥 Áp dụng Charm toàn bộ */
 }
 
 .app-container {
@@ -94,15 +95,19 @@ html, body, #app {
 .footer {
   flex-shrink: 0;
   text-align: center;
-  padding: 10px;
-  font-size: 0.9rem;
-  color: #aaa;
-  border-top: 1px solid #333;
-  background: #0d0d0d;
+  padding: 12px;
+  font-size: 0.95rem;
+  background: linear-gradient(180deg, #1a1a1a, #0d0d0d, #2a0000);
+  color: #bbb; /* xám bạc */
+  border-top: 2px solid #660000; /* đỏ sẫm */
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 6px rgba(0,0,0,0.7);
 }
 
 .author {
-  color: #ff4b1f;
+  color: #ff3b3b;
   font-weight: bold;
+  text-shadow: 0 0 8px rgba(255,60,60,0.8), 
+               0 0 15px rgba(180,0,0,0.7);
 }
 </style>

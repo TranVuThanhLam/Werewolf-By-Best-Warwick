@@ -50,14 +50,12 @@ const roleBorderClass = computed(() => {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700&family=Charm:wght@700&display=swap');
-
 .flip-card-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  font-family: "Be Vietnam Pro", sans-serif;
+  font-family: "Charm", cursive; /* 🔥 đổi toàn bộ sang Charm */
 }
 
 .hint {
@@ -133,7 +131,7 @@ const roleBorderClass = computed(() => {
 .role-name {
   margin-top: 10px;
   font-size: 1.8rem;
-  font-family: "Charm", cursive; /* 🔥 dùng Charm cho role */
+  font-family: "Charm", cursive; /* 🔥 vẫn giữ Charm riêng cho role */
   text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
   text-align: center;
 }
