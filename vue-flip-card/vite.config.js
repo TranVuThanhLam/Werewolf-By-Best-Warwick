@@ -8,10 +8,8 @@ export default defineConfig({
     host: true, // mở 0.0.0.0 cho Funnel
     port: 5173,
     allowedHosts: [
-      "tvtl.tail04954f.ts.net", // domain funnel của bạn
+      "tvtl.tail04954f.ts.net",
+      "lamtvt.tail04954f.ts.net",
     ],
-    hmr: {
-      host: "tvtl.tail04954f.ts.net", // để HMR chạy qua Funnel
-    },
   },
 });
