@@ -72,14 +72,49 @@ function nextPlayer() {
 }
 function getIcon(roleName) {
   switch (roleName) {
-    case "Sói": return "🐺";
-    case "Dân làng": return "👨‍🌾";
-    case "Phù thủy": return "🧙‍♀️";
-    case "Tiên tri": return "🔮";
-    case "Bảo vệ": return "🛡️";
-    case "Thợ săn": return "🏹";
-    case "Đồ ngốc": return "🤡";
-    default: return "❓";
+    case "Sói":
+    case "🦊 Sói Con":
+    case "Sói con":
+      return "🐺"; // hình tượng người sói
+    case "Dân":
+    case "Dân Làng":
+    case "Dân làng":
+      return "🧑"; // người dân thường
+    case "🔮 Tiên Tri":
+    case "Tiên tri":
+      return "🧙"; // pháp sư/tiên tri
+    case "🛡️ Bảo Vệ":
+    case "Bảo vệ":
+      return "🧝‍♂️"; // hiệp sĩ / người bảo vệ
+    case "🧪 Phù Thủy":
+    case "Phù thủy":
+      return "🧙‍♀️"; // mụ phù thủy
+    case "🏹 Thợ Săn":
+    case "Thợ săn":
+      return "🧔"; // thợ săn người
+    case "💘 Cupid":
+    case "Cupid":
+      return "👼"; // thiên thần tình yêu
+    case "🧙‍♂️ Già Làng":
+    case "Già làng":
+      return "👴"; // ông già
+    case "❤️ Cặp Đôi":
+    case "Cặp đôi":
+      return "👩‍❤️‍👨"; // cặp đôi
+    case "🃏 Kẻ Phản Bội":
+    case "Kẻ phản bội":
+      return "🦹"; // kẻ phản diện
+    case "👑 Trưởng Làng":
+    case "Trưởng làng":
+      return "🤴"; // trưởng làng
+    case "🦉 Thầy Đồng":
+    case "Thầy đồng":
+      return "🧙‍♂️"; // thầy pháp / pháp sư nam
+    case "🤡 Đồ Ngốc":
+    case "Đồ ngốc":
+      return "🤪"; // kẻ ngốc
+    default:
+      return "❓";
   }
 }
 </script>

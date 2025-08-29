@@ -65,12 +65,13 @@ const specialRoles = [
   "🧪 Phù Thủy",
   "🏹 Thợ Săn",
   "💘 Cupid",
-  "👴 Già Làng",
-  "🐺 Sói Con",
+  "🧙‍♂️ Già Làng",
+  "🦊 Sói Con",
   "❤️ Cặp Đôi",
   "🃏 Kẻ Phản Bội",
   "👑 Trưởng Làng",
   "🦉 Thầy Đồng",
+  "🤡 Đồ Ngốc",
 ];
 
 // Khởi tạo state đếm cho role đặc biệt = 0
