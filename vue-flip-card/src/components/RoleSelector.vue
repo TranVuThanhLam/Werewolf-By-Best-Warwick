@@ -3,27 +3,32 @@
     <h1 class="title">⚔️ Chọn Vai Trò</h1>
     <p class="subtitle">Ánh trăng máu soi sáng số phận...</p>
 
-    <!-- Scroll container với viền bao quanh -->
+    <!-- Tổng số lá bài -->
+    <div class="total-count">
+      Tổng số lá bài: <span>{{ totalCount }}</span>
+    </div>
+
+    <!-- Danh sách roles -->
     <div class="roles-wrapper">
       <div class="roles-container">
         <div class="roles-grid">
           <!-- Dân Làng -->
-          <div class="role-card strong">
+          <div class="role-card strong" :class="{ selected: counts['Dân Làng'] > 0 }">
             <div class="role-name">👥 Dân Làng</div>
             <div class="counter">
-              <button class="btn-circle" @click="decrease('Dân Làng')">−</button>
+              <button @click="decrease('Dân Làng')">−</button>
               <span>{{ counts['Dân Làng'] }}</span>
-              <button class="btn-circle" @click="increase('Dân Làng')">+</button>
+              <button @click="increase('Dân Làng')">+</button>
             </div>
           </div>
 
           <!-- Sói -->
-          <div class="role-card strong">
+          <div class="role-card strong" :class="{ selected: counts['Sói'] > 0 }">
             <div class="role-name">🐺 Sói</div>
             <div class="counter">
-              <button class="btn-circle" @click="decrease('Sói')">−</button>
+              <button @click="decrease('Sói')">−</button>
               <span>{{ counts['Sói'] }}</span>
-              <button class="btn-circle" @click="increase('Sói')">+</button>
+              <button @click="increase('Sói')">+</button>
             </div>
           </div>
 
@@ -32,7 +37,7 @@
             v-for="role in specialRoles"
             :key="role"
             class="role-card"
-            :class="{ selected: counts[role] === 1 }"
+            :class="{ selected: counts[role] > 0 }"
             @click="toggleRole(role)"
           >
             <span>{{ role }}</span>
@@ -41,7 +46,7 @@
       </div>
     </div>
 
-    <!-- Luôn nằm dưới màn hình -->
+    <!-- Hành động -->
     <div class="actions">
       <button class="btn back" @click="$emit('back')">⬅ Quay lại</button>
       <button class="btn next" @click="confirmRoles">Xác nhận ➡</button>
@@ -50,7 +55,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 const emit = defineEmits(["back", "next"]);
 
 const counts = ref({
@@ -58,226 +63,156 @@ const counts = ref({
   "Sói": 1,
 });
 
-// Khai báo tất cả role đặc biệt
 const specialRoles = [
-  "🔮 Tiên Tri",
-  "🛡️ Bảo Vệ",
-  "🧪 Phù Thủy",
-  "🏹 Thợ Săn",
-  "💘 Cupid",
-  "🧙‍♂️ Già Làng",
-  "🦊 Sói Con",
-  "❤️ Cặp Đôi",
-  "🃏 Kẻ Phản Bội",
-  "👑 Trưởng Làng",
-  "🦉 Thầy Đồng",
-  "🤡 Đồ Ngốc",
+  "🔮 Tiên Tri", "🛡️ Bảo Vệ", "🧪 Phù Thủy", "🏹 Thợ Săn",
+  "💘 Cupid", "🧙‍♂️ Già Làng", "🦊 Sói Con", "❤️ Cặp Đôi",
+  "🃏 Kẻ Phản Bội", "👑 Trưởng Làng", "🦉 Thầy Đồng", "🤡 Đồ Ngốc",
 ];
 
-// Khởi tạo state đếm cho role đặc biệt = 0
-specialRoles.forEach(role => {
-  counts.value[role] = 0;
-});
+specialRoles.forEach(role => { counts.value[role] = 0; });
 
 const increase = (role) => counts.value[role]++;
-const decrease = (role) => {
-  if (counts.value[role] > 0) counts.value[role]--;
-};
+const decrease = (role) => { if (counts.value[role] > 0) counts.value[role]--; };
+const toggleRole = (role) => { counts.value[role] = counts.value[role] === 1 ? 0 : 1; };
 
-// Toggle role đặc biệt: 0 <-> 1
-const toggleRole = (role) => {
-  counts.value[role] = counts.value[role] === 1 ? 0 : 1;
-};
+const totalCount = computed(() => {
+  return Object.values(counts.value).reduce((a, b) => a + b, 0);
+});
 
 const confirmRoles = () => {
   let finalRoles = [];
-
   for (let i = 0; i < counts.value["Dân Làng"]; i++) finalRoles.push("Dân Làng");
   for (let i = 0; i < counts.value["Sói"]; i++) finalRoles.push("Sói");
+  specialRoles.forEach(role => { if (counts.value[role] === 1) finalRoles.push(role); });
 
-  specialRoles.forEach((role) => {
-    if (counts.value[role] === 1) finalRoles.push(role);
-  });
-
-  if (finalRoles.length > 0) {
-    emit("next", finalRoles);
-  } else {
-    alert("Hãy chọn ít nhất 1 vai trò!");
-  }
+  if (finalRoles.length > 0) emit("next", finalRoles);
+  else alert("Hãy chọn ít nhất 1 vai trò!");
 };
 </script>
 
 <style scoped>
-/* giữ nguyên style như trước */
 .role-selector {
-  position: relative;
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 30px;
+  height: 100%; /* đảm bảo chiếm full chiều cao */
+  padding: 20px;
   text-align: center;
   color: #ddd;
   background: radial-gradient(circle at center, #2a0000, #0d0d0d 80%);
-  overflow: hidden;
+  box-sizing: border-box;
 }
 
-.role-selector::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(255, 60, 60, 0.25), transparent 80%);
-  animation: pulse 6s ease-in-out infinite alternate;
-  z-index: 0;
-}
-
-@keyframes pulse {
-  from { opacity: 0.1; }
-  to   { opacity: 0.6; }
-}
-
-.title,
-.subtitle,
-.roles-wrapper,
-.actions {
-  position: relative;
-  z-index: 1;
-}
-
-.title {
-  font-size: 2.5rem;
-  margin-bottom: 8px;
-  color: #ff3b3b;
-  text-shadow: 0 0 20px rgba(255, 60, 60, 0.9);
-}
-
-.subtitle {
+.title { font-size: 2rem; margin-bottom: 8px; }
+.subtitle { font-size: 1rem; margin-bottom: 10px; }
+.total-count {
   font-size: 1.2rem;
-  color: #aaa;
-  margin-bottom: 20px;
-  font-style: italic;
+  margin-bottom: 14px;
+  color: #ffae7a;
+  font-weight: bold;
 }
 
 .roles-wrapper {
-  flex: 1;
+  flex: 1; /* co giãn trong khung */
   width: 100%;
-  max-width: 800px;
   border: 2px solid rgba(255, 60, 60, 0.6);
-  border-radius: 18px;
-  box-shadow: 0 0 20px rgba(255, 60, 60, 0.2), inset 0 0 15px rgba(255, 0, 0, 0.15);
+  border-radius: 14px;
   padding: 12px;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
-.roles-wrapper:hover {
-  border-color: rgba(255, 60, 60, 0.9);
-  box-shadow: 0 0 25px rgba(255, 60, 60, 0.5), inset 0 0 20px rgba(255, 0, 0, 0.25);
-}
-
 .roles-container {
-  max-height: 400px;
+  flex: 1; /* scroll nội bộ */
   overflow-y: auto;
-  padding-right: 8px;
+  overflow-x: hidden;
+  padding-right: 4px;
 }
-
-.roles-container::-webkit-scrollbar {
-  width: 0px;
-}
-.roles-container {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
 .roles-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 20px;
+  gap: 16px;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .role-card {
-  background: linear-gradient(145deg, #1a1a1a, #2b2b2b);
-  border: 2px solid #333;
-  border-radius: 16px;
   padding: 20px;
-  font-size: 1.1rem;
+  border-radius: 16px;
+  font-size: 1.05rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: inset 0 0 12px rgba(0,0,0,0.6);
+  background: rgba(255, 255, 255, 0.07);
+  transition: all 0.25s ease;
+  border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-
+.role-card:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
 .role-card.selected {
-  border-color: #ff3b3b;
-  background: linear-gradient(145deg, #440000, #220000);
-  color: #fff;
-  box-shadow: 0 0 25px rgba(255, 60, 60, 0.8);
-}
-
-.role-card.strong {
-  border: 2px solid #555;
-  font-weight: bold;
-}
-
-.counter {
-  margin-top: 12px;
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  align-items: center;
-}
-
-.btn-circle {
-  width: 38px;
-  height: 38px;
-  border-radius: 8px;
-  border: none;
-  background: #333;
-  color: #fff;
-  font-size: 1.4rem;
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.btn-circle:hover {
-  background: #ff3b3b;
+  border-color: #ff4444;
+  background: rgba(255, 60, 60, 0.25);
   box-shadow: 0 0 12px rgba(255, 60, 60, 0.6);
 }
 
-.actions {
-  position: sticky;
-  bottom: 0;
-  padding: 20px 0;
-  background: linear-gradient(to top, rgba(13,13,13,0.95), rgba(13,13,13,0));
+/* Counter */
+.strong .counter {
+  margin-top: 10px;
   display: flex;
+  gap: 10px;
+  align-items: center;
   justify-content: center;
-  gap: 20px;
-  z-index: 2;
 }
-
-.btn {
-  padding: 12px 24px;
+.strong .counter button {
+  width: 36px;
+  height: 36px;
+  font-size: 1.3rem;
   border: none;
-  border-radius: 12px;
-  font-size: 1rem;
-  cursor: pointer;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.1);
   color: #fff;
-  transition: all 0.3s;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.strong .counter button:hover {
+  background: rgba(255,255,255,0.2);
+}
+.strong .counter span {
+  min-width: 24px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.1rem;
 }
 
-.btn.back {
-  background: #444;
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.1); /* phân cách nút */
 }
-.btn.back:hover {
-  background: #666;
+.btn {
+  padding: 14px 22px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  font-weight: bold;
+  font-size: 1rem;
 }
+.btn.back { background: #444; color: #fff; }
+.btn.next { background: #ff4444; color: #fff; }
 
-.btn.next {
-  background: linear-gradient(135deg, #ff3b3b, #b30000, #660000);
-  box-shadow: 0 0 16px rgba(255, 60, 60, 0.7);
-}
-.btn.next:hover {
-  box-shadow: 0 0 25px rgba(255, 60, 60, 1);
-  transform: scale(1.07);
+@media (max-width: 480px) {
+  .title { font-size: 1.6rem; }
+  .subtitle { font-size: 0.9rem; }
+  .roles-grid { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
+  .role-card { font-size: 0.95rem; padding: 16px; }
+  .btn { font-size: 0.9rem; padding: 10px 16px; }
 }
 </style>
