@@ -7,9 +7,6 @@ export default defineConfig({
   server: {
     host: true, // mở 0.0.0.0 cho Funnel
     port: 5173,
-    allowedHosts: [
-      "tvtl.tail04954f.ts.net",
-      "lamtvt.tail04954f.ts.net",
-    ],
+    allowedHosts: ["tvtl.tail04954f.ts.net", "lamtvt.tail04954f.ts.net"],
   },
 });
