@@ -95,7 +95,7 @@ const confirmRoles = () => {
   flex: 1;
   display: flex;
   flex-direction: column;
-  height: 100%; /* đảm bảo chiếm full chiều cao */
+  height: 100%;
   padding: 20px;
   text-align: center;
   color: #ddd;
@@ -113,18 +113,17 @@ const confirmRoles = () => {
 }
 
 .roles-wrapper {
-  flex: 1; /* co giãn trong khung */
+  flex: 1;
   width: 100%;
   border: 2px solid rgba(255, 60, 60, 0.6);
   border-radius: 14px;
   padding: 12px;
   overflow: hidden;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
 }
 .roles-container {
-  flex: 1; /* scroll nội bộ */
+  flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
   padding-right: 4px;
@@ -133,8 +132,6 @@ const confirmRoles = () => {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 16px;
-  width: 100%;
-  box-sizing: border-box;
 }
 
 .role-card {
@@ -150,9 +147,7 @@ const confirmRoles = () => {
   align-items: center;
   justify-content: center;
 }
-.role-card:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
+.role-card:hover { background: rgba(255, 255, 255, 0.15); }
 .role-card.selected {
   border-color: #ff4444;
   background: rgba(255, 60, 60, 0.25);
@@ -164,8 +159,6 @@ const confirmRoles = () => {
   margin-top: 10px;
   display: flex;
   gap: 10px;
-  align-items: center;
-  justify-content: center;
 }
 .strong .counter button {
   width: 36px;
@@ -176,9 +169,6 @@ const confirmRoles = () => {
   background: rgba(255,255,255,0.1);
   color: #fff;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 .strong .counter button:hover {
   background: rgba(255,255,255,0.2);
@@ -190,23 +180,41 @@ const confirmRoles = () => {
   font-size: 1.1rem;
 }
 
+/* Actions */
 .actions {
   display: flex;
-  justify-content: space-between;
-  margin-top: 12px;
-  padding-top: 8px;
-  border-top: 1px solid rgba(255,255,255,0.1); /* phân cách nút */
+  justify-content: center;
+  gap: 20px;
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.1);
 }
+
 .btn {
-  padding: 14px 22px;
-  border-radius: 10px;
-  cursor: pointer;
+  padding: 12px 24px;
   border: none;
-  font-weight: bold;
+  border-radius: 12px;
   font-size: 1rem;
+  cursor: pointer;
+  color: #fff;
+  transition: all 0.3s;
 }
-.btn.back { background: #444; color: #fff; }
-.btn.next { background: #ff4444; color: #fff; }
+
+.btn.back {
+  background: #444;
+}
+.btn.back:hover {
+  background: #666;
+}
+
+.btn.next {
+  background: linear-gradient(135deg, #ff3b3b, #b30000, #660000);
+  box-shadow: 0 0 16px rgba(255, 60, 60, 0.7);
+}
+.btn.next:hover {
+  box-shadow: 0 0 25px rgba(255, 60, 60, 1);
+  transform: scale(1.07);
+}
 
 @media (max-width: 480px) {
   .title { font-size: 1.6rem; }

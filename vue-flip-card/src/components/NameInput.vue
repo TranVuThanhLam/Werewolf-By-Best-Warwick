@@ -127,22 +127,14 @@ const confirmPlayers = () => {
   overflow-y: auto;
   padding-right: 6px;
 }
+.players-container::-webkit-scrollbar { width: 0px; }
+.players-container { -ms-overflow-style: none; scrollbar-width: none; }
 
-.players-container::-webkit-scrollbar {
-  width: 0px;
-}
-.players-container {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.player-item {
-  margin-bottom: 14px; /* cách nhau rõ hơn */
-}
+.player-item { margin-bottom: 14px; }
 
 .player-input {
   width: 100%;
-  padding: 14px 18px; /* input to hơn */
+  padding: 14px 18px;
   border-radius: 12px;
   border: 2px solid #333;
   background: #1a1a1a;
@@ -156,6 +148,7 @@ const confirmPlayers = () => {
   box-shadow: 0 0 12px rgba(255, 60, 60, 0.7);
 }
 
+/* Actions */
 .actions {
   position: sticky;
   bottom: 0;
