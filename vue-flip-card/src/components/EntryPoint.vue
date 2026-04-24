@@ -46,7 +46,7 @@
         </div>
 
         <!-- Chế độ Online - Tông Tím/Teal -->
-        <div class="menu-item spirit disabled">
+        <div class="menu-item spirit" @click="$emit('selectMode', 'multi')">
           <div class="item-inner">
             <div class="icon-box">🔮</div>
             <div class="text-box">

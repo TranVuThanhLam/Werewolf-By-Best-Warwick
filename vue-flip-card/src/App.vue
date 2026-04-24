@@ -12,6 +12,17 @@
             v-if="step === 'entry'" 
             @selectMode="handleSelectMode" 
           />
+          <MultiplayerMenu 
+            v-if="step === 'multi_menu'"
+            @back="handleBack"
+            @create="handleCreateRoom"
+            @join="handleJoinRoom"
+          />
+          <Lobby 
+            v-if="step === 'lobby'"
+            :roomCode="roomCode"
+            @back="handleBack"
+          />
           <RoleSelector 
             v-if="step === 'roles'" 
             @back="handleBack"
@@ -45,13 +56,27 @@ import EntryPoint from './components/EntryPoint.vue';
 import RoleSelector from './components/RoleSelector.vue';
 import NameInput from './components/NameInput.vue';
 import RevealRoles from './components/RevealRoles.vue';
+import MultiplayerMenu from './components/MultiplayerMenu.vue'; // Mới
+import Lobby from './components/Lobby.vue';             // Mới
 
 const step = ref("entry");
 const selectedRoles = ref([]); 
 const players = ref([]);      
+const roomCode = ref("");      // Mã phòng
 
 const handleSelectMode = (mode) => {
   if (mode === "single") step.value = "roles";
+  if (mode === "multi") step.value = "multi_menu";
+};
+
+const handleCreateRoom = (code) => {
+  roomCode.value = code;
+  step.value = "lobby";
+};
+
+const handleJoinRoom = (code) => {
+  roomCode.value = code;
+  step.value = "lobby";
 };
 
 const handleBack = () => step.value = "entry";
